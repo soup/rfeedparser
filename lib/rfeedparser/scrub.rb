@@ -27,7 +27,7 @@ module Hpricot
     'type', 'usemap', 'valign', 'value', 'vspace', 'width', 'xml:lang'
   ]
 
-  Unacceptable_Elements_With_End_Tag = ['script', 'applet']
+  Unacceptable_Elements_With_End_Tag = ['script', 'applet', 'style']
 
   Acceptable_Css_Properties = ['azimuth', 'background-color',
     'border-bottom-color', 'border-collapse', 'border-color',
