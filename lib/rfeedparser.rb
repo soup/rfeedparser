@@ -244,7 +244,11 @@ module FeedParser
         end
       elsif f.meta['content-encoding'] == 'deflate'
         begin
-          data = Zlib::Deflate.inflate(data)
+          data = Zlib::Inflate.inflate(data)
+        rescue Zlib::DataError
+          zs = Zlib::Inflate.new
+          zs << "\x78\x01"
+          data = zs.inflate(data)
         rescue => e
           result['bozo'] = true
           result['bozo_exception'] = e
