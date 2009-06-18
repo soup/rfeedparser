@@ -12,7 +12,7 @@
 $KCODE = 'UTF8'
 require 'stringio'
 require 'uri'
-require 'rubygems/open-uri'
+require 'open-uri'
 require 'cgi' # escaping html
 require 'time'
 require 'pp'
