@@ -12,7 +12,7 @@
 $KCODE = 'UTF8'
 require 'stringio'
 require 'uri'
-require 'open-uri'
+require 'rubygems/open-uri'
 require 'cgi' # escaping html
 require 'time'
 require 'pp'
@@ -91,6 +91,8 @@ module FeedParser
   # want to send an Accept header, set this to nil.
   ACCEPT_HEADER = "application/atom+xml,application/rdf+xml,application/rss+xml,application/x-netcdf,application/xml;q=0.9,text/xml;q=0.2,*/*;q=0.1"
 
+  # Timeout for HTTP feed requests
+  REQUEST_TIMEOUT = 60
 
   # If you want feedparser to automatically run HTML markup through HTML Tidy, set
   # this to true.  Requires mxTidy <http://www.egenix.com/files/python/mxTidy.html>
@@ -178,6 +180,7 @@ module FeedParser
       req_headers["Authorization"] = "Basic #{auth}" if auth
       req_headers['Accept'] = ACCEPT_HEADER if ACCEPT_HEADER
       req_headers['A-IM'] = 'feed' # RFC 3229 support 
+      req_headers[:read_timeout] = options[:timeout] || REQUEST_TIMEOUT 
       
       begin
         return open(url_file_stream_or_string, req_headers) 
