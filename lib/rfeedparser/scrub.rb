@@ -11,7 +11,7 @@ module Hpricot
     'menu', 'ol', 'optgroup', 'option', 'p', 'pre', 'q', 's', 'samp',
     'select', 'small', 'span', 'strike', 'strong', 'sub', 'sup', 'table',
     'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'tr', 'tt', 'u',
-    'ul', 'var'
+    'ul', 'var', 'object', 'embed'
   ]
 
   Acceptable_Attributes = ['abbr', 'accept', 'accept-charset', 'accesskey',
