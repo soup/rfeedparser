@@ -971,7 +971,44 @@ module FeedParserMixin
   end
   alias :_start_dc_subject :_start_category
   alias :_start_keywords :_start_category
-
+  
+  def _start_taxo_topics(attrsD)
+    $stderr << "entering _start_taxo_topics with #{attrsD}\n" if $debug
+    push('taxo_topics', true)
+    context = getContext()
+    context['tags'] ||= []
+  end
+  
+  def _start_rdf_bag(attrsD)
+    $stderr << "entering _start_rdf_bag with #{attrsD}\n" if $debug
+    return if @elementstack[-1][0] != 'taxo_topics'
+    push('taxo_topics_rdf_bag', true)
+  end
+  
+  require 'uri'
+  
+  def _start_rdf_li(attrsD)
+    $stderr << "entering _start_rdf_li with #{attrsD}\n" if $debug
+    return if @elementstack[-1][0] != 'taxo_topics_rdf_bag'
+    uri = URI.parse(urljoin(@baseuri, attrsD['resource']))
+    path = uri.path
+    segments = path.split('/')
+    tag = segments.pop
+    tag = segments.pop unless tag
+    return unless tag
+    tagscheme = uri.scheme + '://' + uri.host + segments.join('/')
+    tagscheme += '/' unless tagscheme.ends_with?('/')
+    addTag(tag, tagscheme, nil)
+  end
+  
+  def _end_rdf_bag
+    value = pop('taxo_topics_rdf_bag')
+  end
+  
+  def _end_taxo_topics
+    value = pop('taxo_topics')
+  end
+  
   def _end_itunes_keywords
     pop('itunes_keywords').split.each do |term|
       addTag(term, 'http://www.itunes.com/', nil)
