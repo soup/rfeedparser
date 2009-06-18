@@ -1058,8 +1058,13 @@ module FeedParserMixin
   def _start_title(attrsD)
     pushContent('title', attrsD, 'text/plain', @infeed || @inentry || @insource)
   end
-  alias :_start_dc_title :_start_title
-  alias :_start_media_title :_start_title
+  
+  def _start_title_low_pri(attrsD)
+    return if getContext.has_key? 'title'
+    _start_title(attrsD)
+  end
+  alias :_start_dc_title :_start_title_low_pri
+  alias :_start_media_title :_start_title_low_pri
 
   def _end_title
     value = popContent('title')
@@ -1071,9 +1076,14 @@ module FeedParserMixin
     end
     @has_title = true
   end
-  alias :_end_dc_title :_end_title
+  
+  def _end_dc_title
+    return if getContext.has_key? 'title'
+    _end_title
+  end
 
   def _end_media_title
+    return if getContext.has_key? 'title'
     orig_has_title = @has_title
     _end_title
     @has_title = orig_has_title
