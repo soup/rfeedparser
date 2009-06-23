@@ -41,7 +41,6 @@ require 'html/sgml-parser'
 gem 'htmlentities', ">=4.0.0"
 require 'htmlentities'
 
-gem 'addressable', ">= 1.0.4"
 require 'addressable/uri'
 
 gem 'rchardet', ">=1.0"
