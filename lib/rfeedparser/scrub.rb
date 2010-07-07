@@ -203,10 +203,6 @@ module FeedParserUtilities
   module_function(:SanitizerDoc)
 
   def sanitizeHTML(html,encoding)
-    # FIXME Tidy not yet supported
-    html = html.gsub(/<!((?!DOCTYPE|--|\[))/, '&lt;!\1')
-    h = SanitizerDoc(html)
-    h = h.scrub
-    return h.strip
+    html.gsub(/<!((?!DOCTYPE|--|\[))/, '&lt;!\1').strip
   end
 end
